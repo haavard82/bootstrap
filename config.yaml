@@ -1,0 +1,92 @@
+settings:
+  initrepo:
+    url: "https://git.havkros.duckdns.org:4443/hko/init"
+  target_dir:
+    path: ${HOME}/init
+  xdg_config_home:
+    path: ${HOME}/.config
+  zdotdir:
+    path: ${XDG_CONFIG_HOME}/zsh
+  git_dir:
+    path: ${XDG_CONFIG_HOME}/git
+  git_api_url:
+    url: "https://api.github.com/repos/nextcloud/desktop/releases/latest"
+  brew_cmd:
+    command: ${HOME}/homebrew/bin/brew
+  log_file:
+    path: ${HOME}/init.log
+  init_template_marker_file:
+    path: ${HOME}/.init_template_marker_file_ran
+
+applications:
+  - name: wireguard-go
+    directory: "not specified"
+    type: "homebrew"
+  - name: wireguard-tools
+    directory: "not specified"
+    type: "homebrew"
+  - name: zsh-autocomplete
+    directory: "not specified"
+    type: "homebrew"
+  - name: zsh-syntax-highlighting
+    directory: "not specified"
+    type: "homebrew"
+  - name: zsh-autosuggestions
+    directory: "not specified"
+    type: "homebrew"
+  - name: jq
+    directory: "not specified"
+    type: "homebrew"
+  - name: yq
+    directory: "not specified"
+    type: "homebrew"
+  - name: brave-browser
+    directory: "${HOME}/Applications/Brave Browser.app"
+    type: "homebrew"
+  - name: iterm2
+    directory: "${HOME}/Applications/iTerm.app"
+    type: "homebrew"
+  - name: font-fontawesome
+    directory: "not specified"
+    type: "homebrew"
+  - name: visual-studio-code
+    directory: "${HOME}/Applications/Visual Studio Code.app"
+    type: "homebrew"
+  - name: mattermost
+    directory: "${HOME}/Applications/Mattermost.app"
+    type: "homebrew"
+  - name: dockutil
+    directory: "not specified"
+    type: "homebrew"
+  - name: nextcloud
+    directory: "${HOME}/Applications/Nextcloud.app"
+    type: "native" # Native means that the application is not installed via homebrew
+
+downloads:
+  - name: HaX0R_GR33N_itermcolors
+    source: "https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/HaX0R_GR33N.itermcolors"
+    destination: "${XDG_CONFIG_HOME}/iterm2/HaX0R_GR33N.itermcolors"
+
+init_list:
+  - name: com.admin.init-user.plist
+    source: "${TARGET_DIR}/launchagents/com.admin.init-user.plist"
+    destination: "${HOME}/Library/LaunchAgents/com.admin.init-user.plist"
+    permissions: "644"
+  - name: com.admin.backup.plist
+    source: "${TARGET_DIR}/launchagents/com.admin.backup.plist"
+    destination: "${HOME}/Library/LaunchAgents/com.admin.backup.plist"
+    permissions: "644"
+  - name: zsh
+    source: "${TARGET_DIR}/zsh"
+    destination: "${ZDOTDIR}"
+    permissions: "700"
+
+vscode-extensions:
+  - name: github.copilot
+  - name: github.copilot-chat
+  - name: johnpapa.vscode-peacock
+  - name: redhat.vscode-yaml
+  - name: sergeyegorov.folder-color
+  - name: yzane.markdown-pdf
+  - name: yzhang.markdown-all-in-one
+  - name: zainchen.json
