@@ -1,6 +1,6 @@
 settings:
   initrepo:
-    url: "https://git.havkros.duckdns.org:4443/hko/init"
+    url: "https://github.com/haavard82/init.git"
   target_dir:
     path: ${HOME}/init
   xdg_config_home:
