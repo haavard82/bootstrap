@@ -80,6 +80,10 @@ init_list:
     source: "${TARGET_DIR}/zsh"
     destination: "${ZDOTDIR}"
     permissions: "700"
+  - name: wallpaper
+    source: "${TARGET_DIR}/wallpaper/wallpaper_test.png"
+    destination: "${HOME}/Pictures/wallpaper_test.png"
+    permissions: "644"
 
 vscode-extensions:
   - name: github.copilot

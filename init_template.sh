@@ -1250,6 +1250,9 @@ configure_zsh
 # Installs Nextcloud without sudo/admin rights
 install_nextcloud
 
+# Change wallpaper
+osascript -e 'tell application "System Events" to set picture of every desktop to "'"$HOME/Pictures/wallpaper_test.png"'"'
+
 # Adds GUI apps that are installed to /Applications to the macOS Dock! (magic)
 add_to_macos_dock
 
