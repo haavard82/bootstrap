@@ -1200,6 +1200,44 @@ download_files() {
     log_message "All additional files downloaded..."    
 }
 
+cleanup() {
+
+    directories=(
+        $HOME/init
+    )
+
+    files=(
+        $HOME/config.yaml
+        $HOME/terminal_session.log
+        $HOME/init.log
+        $HOME/bootstrap.sh
+        $HOME/.init_template_marker_file_ran
+        $HOME/.install_homebrew_ran
+        $HOME/.install_homebrew_ran
+    )
+
+    for dir in $directories; do
+    
+        if [ -d "$dir" ]; then
+            log_message "Directory $HOME/init exists..."
+            log_message "Deleting $HOME/init ..."
+            rm -R "$HOME/init"
+        fi
+
+    done
+
+    for file in $files; do
+    
+        if [ -f "$file" ]; then
+            log_message "File $file exists..."
+            log_message "Deleting $file ..."
+            rm -f "$file"
+        fi
+
+    done
+
+}
+
 # ============================================
 # Main Execution
 # ============================================
@@ -1281,5 +1319,8 @@ open -a iTerm
 
 log_message "Quitting Terminal..."
 killall Terminal 
+
+# Cleaning files and folders
+cleanup
 
 exit 0
