@@ -1212,10 +1212,10 @@ cleanup() {
 
     files=(
         $HOME/config.yaml
-        $HOME/terminal_session.log
         $HOME/init.log
         $HOME/bootstrap.sh
         $HOME/.init_template_marker_file_ran
+        $HOME/init_template.sh
         $HOME/.install_homebrew_ran
     )
 
@@ -1224,7 +1224,7 @@ cleanup() {
         if [ -d "$dir" ]; then
             log_message "Directory $dir exists..."
             log_message "Deleting $dir ..."
-            rm -R "$dir"
+            rm -Rf "$dir"
         fi
 
     done
@@ -1234,7 +1234,7 @@ cleanup() {
         if [ -f "$file" ]; then
             log_message "File $file exists..."
             log_message "Deleting $file ..."
-            rm -f "$file"
+            rm -rf "$file"
         fi
 
     done
