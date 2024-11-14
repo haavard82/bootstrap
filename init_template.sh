@@ -232,7 +232,7 @@ install_xcode_command_line_utils() {
             tail -n 1) # Get the latest version
         
         if [ -n "$PROD" ]; then
-            echo "Installing $PROD..."
+            echo "Installing $PROD ..."
             softwareupdate -i "$PROD" --verbose
         else
             echo "No Command Line Tools available for installation."
