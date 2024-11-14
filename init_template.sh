@@ -860,10 +860,10 @@ add_to_macos_dock() {
         directory=$(yq eval ".applications[\"$app\"].directory" "$YAML_FILE")
         directory=$(expand_vars "$directory")
 
-        if [[ "$directory" != "not specified" && "$type" == "add" ]]; then
+        if [[ "$directory" != "not specified" && "$method" == "add" ]]; then
             dockutil --add "$directory"
             log_message "($name) $directory has been added to the Dock."
-        elif [[ "$directory" != "not specified" && "$type" == "remove" ]]; then
+        elif [[ "$directory" != "not specified" && "$method" == "remove" ]]; then
             dockutil --remove "$directory"
             log_message "($name) $directory has been removed from the Dock."
         fi
