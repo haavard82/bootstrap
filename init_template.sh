@@ -1217,15 +1217,14 @@ cleanup() {
         $HOME/bootstrap.sh
         $HOME/.init_template_marker_file_ran
         $HOME/.install_homebrew_ran
-        $HOME/.install_homebrew_ran
     )
 
     for dir in $directories; do
     
         if [ -d "$dir" ]; then
-            log_message "Directory $HOME/init exists..."
-            log_message "Deleting $HOME/init ..."
-            rm -R "$HOME/init"
+            log_message "Directory $dir exists..."
+            log_message "Deleting $dir ..."
+            rm -R "$dir"
         fi
 
     done
@@ -1311,7 +1310,6 @@ download_files
 log_message "Done!"
 
 create_marker_file "$INIT_TEMPLATE_MARKER_FILE"
-} 2>&1 | tee -a "$RECORDING_LOG"
 
 # Quit all open terminals and open iTerm2
 log_message "Quitting the old Terminal and opening iTerm2..."
@@ -1325,5 +1323,7 @@ killall Terminal
 
 # Cleaning files and folders
 cleanup
+
+} 2>&1 | tee -a "$RECORDING_LOG"
 
 exit 0
