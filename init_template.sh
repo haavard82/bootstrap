@@ -1258,7 +1258,7 @@ fi
 reset_logfile
 
 # Install Xcode command-line tools (because Homebrew requires them! (git))
-install_xcode_command_line_utils
+#install_xcode_command_line_utils
 
 
 # Installs Homebrew without sudo rights in $HOME/homebrew
