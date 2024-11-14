@@ -19,6 +19,9 @@ settings:
     path: ${HOME}/.init_template_marker_file_ran
 
 applications:
+  - name: xcode
+    directory: "not specified"
+    type: "homebrew"
   - name: wireguard-go
     directory: "not specified"
     type: "homebrew"
