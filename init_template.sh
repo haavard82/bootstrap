@@ -224,7 +224,7 @@ install_xcode_command_line_utils() {
         
         # Get the latest Command Line Tools version available
         PROD=$(softwareupdate -l |
-            grep -E '\* Command Line Tools' |
+            grep -E 'Command Line' |
             awk -F"*" '{print $2}' |
             sed -e 's/^ *//' |
             sed -e 's/^Label: //' | # Remove "Label: " prefix
