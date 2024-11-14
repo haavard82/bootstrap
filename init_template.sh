@@ -218,29 +218,28 @@ install_xcode_command_line_utils() {
     log_message "Checking Xcode CLI tools"
  
     # 2. Check if the Xcode Command Line Tools are already installed
-    if ! xcode-select -p &> /dev/null; then
-        # If the Xcode Command Line Tools are not installed, initiate the installation process
-        log_message "Xcode CLI tools not found. Installing them..."
-        # Create a temporary file to signal the installation process
+    if ! xcode-select -p &>/dev/null; then
+        echo "Installing the latest version of Xcode Command Line Tools non-interactively..."
         touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-        # Retrieve the product name for the Command Line Tools using the 'softwareupdate' command
-        PROD=$(softwareupdate -l | grep "\*.*Command Line" | tail -n 1 | sed 's/^[^C]* //')
-        # Log the product name
-        log_message "Prod: ${PROD}"
-        # Install the Command Line Tools using the 'softwareupdate' command with the retrieved product name
-        softwareupdate -i "$PROD" --verbose
-        # Validate the installation
-        if [ $? -eq 0 ]; then
-            # If the installation is successful, log a success message
-            log_message "Xcode CLI tools installed successfully"
+        
+        # Get the latest Command Line Tools version available
+        PROD=$(softwareupdate -l |
+            grep -E '\* Command Line Tools' |
+            awk -F"*" '{print $2}' |
+            sed -e 's/^ *//' |
+            sort -V | # Sort version numbers in ascending order
+            tail -n 1) # Get the latest version
+
+        if [ -n "$PROD" ]; then
+            echo "Installing $PROD..."
+            softwareupdate -i "$PROD" --verbose
         else
-            # If the installation fails, log an error message and exit the script with a status code of 1
-            log_message "Failed to install Xcode CLI tools..." 1
-            exit 1
+            echo "No Command Line Tools available for installation."
         fi
+
+        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
     else
-        # If the Xcode Command Line Tools are installed, log a message indicating they are already installed
-        log_message "Xcode CLI tools OK..."
+        echo "Xcode Command Line Tools are already installed."
     fi
 }
 
