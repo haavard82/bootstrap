@@ -233,7 +233,7 @@ install_xcode_command_line_utils() {
 
         if [ -n "$PROD" ]; then
             echo "Installing $PROD..."
-            softwareupdate -i "$PROD" --verbose
+            softwareupdate -i \""$PROD"\" --verbose
         else
             echo "No Command Line Tools available for installation."
         fi
