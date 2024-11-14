@@ -227,7 +227,8 @@ install_xcode_command_line_utils() {
             grep -E '\* Command Line Tools' |
             awk -F"*" '{print $2}' |
             sed -e 's/^ *//' |
-            sort -V | # Sort version numbers in ascending order
+            sed -e 's/^Label: //' | # Remove "Label: " prefix
+            sort -V |
             tail -n 1) # Get the latest version
 
         if [ -n "$PROD" ]; then
