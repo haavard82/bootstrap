@@ -39,6 +39,10 @@ applications:
     directory: "not specified"
     type: "homebrew"
     method: "none"
+  - name: fzf
+    directory: "not specified"
+    type: "homebrew"
+    method: "none"
   - name: jq
     directory: "not specified"
     type: "homebrew"
