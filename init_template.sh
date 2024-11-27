@@ -263,7 +263,7 @@ install_xcode_command_line_utils() {
 # 3. Validate the installation by checking if the 'brew' command
 #    is available after the script runs.
 #    - If the installation is successful, log a success message,
-#      update Homebrew, and install the 'yq' tool.
+#      update Homebrew, install the 'yq' tool and disable Homebrew analytics.
 #    - Set the Cask installation directory
 #    - Add Homebrew to the PATH and source the .zshenv file.
 #    - Declare necessary variables and set appropriate permissions.
@@ -330,6 +330,9 @@ install_homebrew() {
         # Update Homebrew and install the 'yq' tool
         "$BREW_CMD" update --force --quiet
         "$BREW_CMD" install yq
+
+        # Disable Homebrew analytics
+        "$BREW_CMD" analytics off
 
         # Set the Cask installation directory:
         echo 'export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"' >> "$HOME/.zshenv"
@@ -1204,6 +1207,75 @@ download_files() {
     log_message "All additional files downloaded..."    
 }
 
+# ============================================================
+# Function: configure_macos_firewall
+# Description: Enables the builtin firewall in macOS
+# and enables stealth mode.
+#
+# Steps:
+# 1. Use 'socketfilterfw' to enable the builtin firewall in System Settings -> Network
+# 2. Use 'socketfilterfw' to enable stealth mode in System Settings -> Network -> Firewall -> Options
+#
+# ============================================================
+configure_macos_firewall() {
+    log_message "Enable macOS firewall"
+    /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+
+    log_message "Enable firewall stealth mode"
+    /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+}
+
+# ============================================================
+# Function: configure_macos_telemetry
+# Description: Disables various builtin telemetry settings in macOS. 
+#
+# Steps:
+# 1. Use 'defaults' to disable 'Help Apple Improve Search' in System Settings -> Spotlight
+# 2. Use 'defaults' to disable 'Apple Intelligence Report' in System Settings -> Privacy & Security
+# 3. Use 'defaults' to disable Siri learning from builtin apps in System Settings -> Apple Intelligence & Siri
+#
+# ============================================================
+configure_macos_telemetry() {
+    log_message "Disable 'Help Apple Improve Search' in System Settings -> Spotlight"
+    defaults write com.apple.assistant.support "Search Queries Data Sharing Status" -int 2
+
+    log_message "Disable 'Apple Intelligence Report' in System Settings -> Privacy & Security"
+    defaults write com.apple.AppleIntelligenceReport reportDuration -int 0
+
+    log_message "Disable Siri learning from builtin apps in System Settings -> Apple Intelligence & Siri"
+    defaults write com.apple.suggestions AppCanShowSiriSuggestionsBlacklist -array \
+        "com.apple.iBooksX" \
+        "com.apple.iCal" \
+        "com.apple.AddressBook" \
+        "com.apple.FaceTime" \
+        "com.apple.mail" \
+        "com.apple.Maps" \
+        "com.apple.MobileSMS" \
+        "com.apple.podcasts" \
+        "com.apple.reminders" \
+        "com.apple.Safari"
+
+    defaults write com.apple.suggestions SiriCanLearnFromAppBlacklist -array \
+        "com.apple.AppStore" \
+        "com.apple.iBooksX" \
+        "com.apple.iCal" \
+        "com.apple.AddressBook" \
+        "com.apple.FaceTime" \
+        "com.apple.mail" \
+        "com.apple.Maps" \
+        "com.apple.MobileSMS" \
+        "com.apple.Notes" \
+        "com.apple.Photos" \
+        "com.apple.podcasts" \
+        "com.apple.reminders" \
+        "com.apple.Safari" \
+        "com.apple.shortcuts" \
+        "com.apple.systempreferences" \
+        "com.apple.helpviewer" \
+        "com.apple.tips"
+}
+
+
 cleanup() {
 
     directories=(
@@ -1305,6 +1377,12 @@ configure_software
 
 # Downloads files specified in the "downloads" array
 download_files
+
+# Enable macOS firewall
+configure_macos_firewall
+
+# Disable macOS telemetry
+configure_macos_telemetry
 
 # The marker file indicates the date of when the init_template.sh script last ran
 log_message "Done!"
